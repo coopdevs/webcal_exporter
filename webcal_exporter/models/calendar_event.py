@@ -14,6 +14,12 @@ class CalendarEvent(models.Model):
 
     external_uuid = fields.Char(string='External UUID')
 
+    def add_unsync_tag(self):
+        # conditionally add unsync tag (if not already present in the event)
+        if not self.tag_ids.filtered(lambda t: t.name == '#unsync'):
+            unsync_tag = self._create_unsync_tag()
+            self.write({'tag_ids': [(4, unsync_tag.id)]})
+
     @api.model
     def _create_unsync_tag(self):
         Tag = self.env['calendar.event.type']
