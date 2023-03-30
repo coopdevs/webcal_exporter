@@ -14,3 +14,13 @@ class CalendarEvent(models.Model):
 
     external_uuid = fields.Char(string='External UUID')
 
+    @api.model
+    def _create_unsync_tag(self):
+        Tag = self.env['calendar.event.type']
+        tag_name = '#unsync'
+        unsync_tag = Tag.search([('name', '=', tag_name)])
+        if not unsync_tag:
+            unsync_tag = Tag.create({'name': tag_name})
+            self.env['ir.config_parameter'].sudo().set_param(
+                'webcal_exporter.unsync_tag_id', unsync_tag.id)
+        return unsync_tag
