@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import logging
 import pytz
 import requests
+import time
 
 _logger = logging.getLogger(__name__)
 
@@ -139,8 +140,8 @@ class ResUsers(models.Model):
                         ics_event.begin = event_start
                         ics_event.end = event_end
                         calendar.events.add(ics_event)
-
-                        event_url = base_url + event.name + '.ics'
+                        timestamp = time.time()
+                        event_url = base_url + timestamp + "_" + event.name + '.ics'
                         self._publish_ical_event(
                             event_url, calendar_user, calendar_password, calendar, log)
 
