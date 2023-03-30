@@ -140,7 +140,7 @@ class ResUsers(models.Model):
                         ics_event.begin = event_start
                         ics_event.end = event_end
                         calendar.events.add(ics_event)
-                        timestamp = time.time()
+                        timestamp = str(time.time()).replace('.', '')
                         event_url = base_url + timestamp + "_" + event.name + '.ics'
                         self._publish_ical_event(
                             event_url, calendar_user, calendar_password, calendar, log)

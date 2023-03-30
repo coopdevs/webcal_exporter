@@ -1,0 +1,4 @@
+[tool.towncrier]
+directory = "webcal_exporter/newsfragments"
+package = "webcal_exporter"
+package_dir = "webcal_exporter"

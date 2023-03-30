@@ -30,12 +30,12 @@ Configuration
 =============
 
 1. Go to the user profile and fill in the following fields under the Calendar Export section:
-
-   - Calendar URL  
   
-   - Calendar User  
+- Calendar URL  
   
-   - Calendar Password  
+- Calendar User  
+  
+- Calendar Password  
   
 2. Click on "Check Credentials" to verify if the provided credentials are correct.
 
@@ -43,6 +43,21 @@ Usage
 =====
 
 Once the user's calendar credentials are set up correctly, the module will automatically export events created within the last hour to the user's external webcal. The scheduled action runs hourly to check for recent events and export them accordingly.
+
+Changelog
+=========
+
+14.0.1.0.2 (2023-03-30)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Prevent duplicate filenames in ics files
+- Stringify timestamp in ics filenames.
+
+**Misc**
+
+- Avoid to generate ics if user has no calendar configured.
 
 Bug Tracker
 ===========

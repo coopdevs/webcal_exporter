@@ -372,19 +372,23 @@ ul.auto-toc {
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#configuration" id="id1">Configuration</a></li>
-<li><a class="reference internal" href="#usage" id="id2">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="id3">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="id4">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="id5">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="id6">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="id7">Maintainers</a></li>
+<li><a class="reference internal" href="#configuration" id="id2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="id3">Usage</a></li>
+<li><a class="reference internal" href="#changelog" id="id4">Changelog</a><ul>
+<li><a class="reference internal" href="#id1" id="id5">14.0.1.0.2 (2023-03-30)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="id6">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="id7">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="id8">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="id9">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="id10">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="configuration">
-<h1><a class="toc-backref" href="#id1">Configuration</a></h1>
+<h1><a class="toc-backref" href="#id2">Configuration</a></h1>
 <ol class="arabic simple">
 <li>Go to the user profile and fill in the following fields under the Calendar Export section:</li>
 </ol>
@@ -398,11 +402,26 @@ ul.auto-toc {
 </ol>
 </div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#id2">Usage</a></h1>
+<h1><a class="toc-backref" href="#id3">Usage</a></h1>
 <p>Once the user’s calendar credentials are set up correctly, the module will automatically export events created within the last hour to the user’s external webcal. The scheduled action runs hourly to check for recent events and export them accordingly.</p>
 </div>
+<div class="section" id="changelog">
+<h1><a class="toc-backref" href="#id4">Changelog</a></h1>
+<div class="section" id="id1">
+<h2><a class="toc-backref" href="#id5">14.0.1.0.2 (2023-03-30)</a></h2>
+<p><strong>Bugfixes</strong></p>
+<ul class="simple">
+<li>Prevent duplicate filenames in ics files</li>
+<li>Stringify timestamp in ics filenames.</li>
+</ul>
+<p><strong>Misc</strong></p>
+<ul class="simple">
+<li>Avoid to generate ics if user has no calendar configured.</li>
+</ul>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#id3">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#id6">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/coopdevs/webcal_exporter/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
@@ -410,21 +429,21 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#id4">Credits</a></h1>
+<h1><a class="toc-backref" href="#id7">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#id5">Authors</a></h2>
+<h2><a class="toc-backref" href="#id8">Authors</a></h2>
 <ul class="simple">
 <li>Coopdevs</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#id6">Contributors</a></h2>
+<h2><a class="toc-backref" href="#id9">Contributors</a></h2>
 <ul class="simple">
 <li>Pelayo &lt;<a class="reference external" href="mailto:pelayo.garcia&#64;coopdevs.org">pelayo.garcia&#64;coopdevs.org</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#id7">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#id10">Maintainers</a></h2>
 <p>This module is part of the <a class="reference external" href="https://github.com/coopdevs/webcal_exporter/tree/14.0/webcal_exporter">coopdevs/webcal_exporter</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
