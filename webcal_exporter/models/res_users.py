@@ -82,7 +82,7 @@ class ResUsers(models.Model):
             _logger.exception("Error while checking credentials: %s", str(e))
             return False
 
-    def _publish_ical_event(self, url, user, password, calendar, log):
+    def _publish_ical_event(self, url, user, password, calendar):
         headers = {
             'Content-Type': 'text/calendar',
             'User-Agent': 'Python-Requests',
@@ -103,7 +103,6 @@ class ResUsers(models.Model):
 
     def export_recent_events(self):
         env = self.env
-        log = _logger.info
         # Calculate the date and time of one hour ago
         one_hour_ago = datetime.now() - timedelta(hours=1)
 
@@ -111,10 +110,10 @@ class ResUsers(models.Model):
         events = env['calendar.event'].search([
             ('create_date', '>=', one_hour_ago.strftime('%Y-%m-%d %H:%M:%S')),
         ])
-        _logger.info("Found %s events to export" % len(events))
+        _logger.debug("Found %s events to export" % len(events))
         # Publish each event to the corresponding user's external calendar
         for event_id in events:
-            _logger.info("Exporting event %s" % event_id.id)
+            _logger.debug("Exporting event %s" % event_id.id)
             event = env['calendar.event'].browse(event_id.id)
             if event.external_uuid:
                 _logger.debug("Event %s already exported" % event_id.id)
