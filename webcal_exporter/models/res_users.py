@@ -119,7 +119,7 @@ class ResUsers(models.Model):
             for partner in event.partner_ids:
                 user = env['res.users'].search(
                     [('partner_id', '=', partner.id)], limit=1)
-                if user:
+                if user.calendar_credentials_verified:
                     # Convert the event start and end times to the user's timezone
                     user_tz = pytz.timezone(user.tz or 'UTC')
                     event_start = pytz.utc.localize(
