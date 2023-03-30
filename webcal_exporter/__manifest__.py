@@ -12,7 +12,7 @@
         'views/res_users_view.xml',
     ],
     'external_dependencies': {
-        'python': ['ics', 'requests', 'pytz'],
+        'python': ['ics', 'requests', 'pytz', 'caldav'],
     },
     'installable': True,
     'application': False,
