@@ -116,7 +116,10 @@ class ResUsers(models.Model):
         for event_id in events:
             _logger.info("Exporting event %s" % event_id.id)
             event = env['calendar.event'].browse(event_id.id)
-
+            if event.external_uuid:
+                _logger.debug("Event %s already exported" % event_id.id)
+                continue
+            event_uuid = str(uuid.uuid4())
             for partner in event.partner_ids:
                 user = env['res.users'].search(
                     [('partner_id', '=', partner.id)], limit=1)
@@ -129,7 +132,6 @@ class ResUsers(models.Model):
                         event.stop).astimezone(user_tz)
                     # If the user has the necessary information for their calendar, try to publish the event
                     if  user.calendar_url and user.calendar_user and user.calendar_password:
-                        event_uuid =  str(uuid.uuid4())
                         calendar = Calendar()
                         ics_event = Event()
                         ics_event.name = event.name
@@ -138,6 +140,11 @@ class ResUsers(models.Model):
                         ics_event.uid = event_uuid
                         calendar.events.add(ics_event)
                         event_url = user.calendar_url + ics_event.uid + ".ics"
-                        self._publish_ical_event(
-                            event_url, user.calendar_user, user.calendar_password, calendar, log)
-
+                        try:
+                            self._publish_ical_event(
+                                event_url, user.calendar_user, user.calendar_password, calendar)
+                            event.external_uuid = event_uuid
+                            event._origin.write({'external_uuid': event_uuid})
+                        except Exception as e:
+                            _logger.error("Error publishing event to %s" % event_url)
+                            event.add_unsynced_tag()
