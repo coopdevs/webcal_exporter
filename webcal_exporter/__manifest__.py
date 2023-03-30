@@ -1,6 +1,6 @@
 {
     'name': 'Webcal Exporter',
-    'version': '14.0.1.0.1',
+    'version': '14.0.1.0.2',
     'category': 'Extra Tools',
     'summary': 'Export Odoo calendar events to external webcal',
     'author': 'Coopdevs',
