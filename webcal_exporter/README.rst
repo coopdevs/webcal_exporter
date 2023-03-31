@@ -51,6 +51,14 @@ Once the user's calendar credentials are set up correctly, the module will autom
 Changelog
 =========
 
+14.0.1.0.4 (2023-03-31)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Allow users edit their own data
+
+
 14.0.1.0.3 (2023-03-31)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

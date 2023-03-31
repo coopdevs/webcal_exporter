@@ -1,9 +1,9 @@
-14.0.1.0.3 (2023-03-31)
+14.0.1.0.4 (2023-03-31)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Bugfixes**
 
-- Allow users edit their own data ()
+- Allow users edit their own data
 
 
 14.0.1.0.3 (2023-03-31)
