@@ -21,6 +21,10 @@ Webcal Exporter
 
 This module allows you to export Odoo calendar events to an external webcal (such as Nextcloud) for each user. Users can provide their webcal URL and credentials in their user profile, and the module will automatically export events created within the last hour. A scheduled action runs hourly to check for recent events and export them to the corresponding user's webcal.
 
+Updated or deleted events trigger an update or deletion in the webcal.
+
+**Note:** This module is not really synchronizing events, but rather exporting them to a webcal. This means that events created in the webcal will not be imported back into Odoo.
+
 **Table of contents**
 
 .. contents::
@@ -46,6 +50,17 @@ Once the user's calendar credentials are set up correctly, the module will autom
 
 Changelog
 =========
+
+14.0.1.0.3 (2023-03-31)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Features**
+
+- Automatic syncing on edit or unlink
+- Create #unsync tag on demand
+- Store uuid in calendar.event
+- Use uuid as a unique identificator for events :bulb:
+
 
 14.0.1.0.2 (2023-03-30)
 ~~~~~~~~~~~~~~~~~~~~~~~

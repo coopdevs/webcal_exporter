@@ -1,6 +1,6 @@
 {
     'name': 'Webcal Exporter',
-    'version': '14.0.1.0.2',
+    'version': '14.0.1.0.3',
     'category': 'Extra Tools',
     'summary': 'Export Odoo calendar events to external webcal',
     'author': 'Coopdevs',
@@ -9,10 +9,11 @@
     'depends': ['base', 'calendar'],
     'data': [
         'data/ir_cron_data.xml',
+        'data/ir_actions_server_data.xml',
         'views/res_users_view.xml',
     ],
     'external_dependencies': {
-        'python': ['ics', 'requests', 'pytz'],
+        'python': ['ics', 'requests', 'pytz', 'caldav'],
     },
     'installable': True,
     'application': False,

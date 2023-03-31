@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import logging
 import pytz
 import requests
-import time
+import uuid
 
 _logger = logging.getLogger(__name__)
 
@@ -82,7 +82,7 @@ class ResUsers(models.Model):
             _logger.exception("Error while checking credentials: %s", str(e))
             return False
 
-    def _publish_ical_event(self, url, user, password, calendar, log):
+    def _publish_ical_event(self, url, user, password, calendar):
         headers = {
             'Content-Type': 'text/calendar',
             'User-Agent': 'Python-Requests',
@@ -103,7 +103,6 @@ class ResUsers(models.Model):
 
     def export_recent_events(self):
         env = self.env
-        log = _logger.info
         # Calculate the date and time of one hour ago
         one_hour_ago = datetime.now() - timedelta(hours=1)
 
@@ -111,12 +110,15 @@ class ResUsers(models.Model):
         events = env['calendar.event'].search([
             ('create_date', '>=', one_hour_ago.strftime('%Y-%m-%d %H:%M:%S')),
         ])
-        _logger.info("Found %s events to export" % len(events))
+        _logger.debug("Found %s events to export" % len(events))
         # Publish each event to the corresponding user's external calendar
         for event_id in events:
-            _logger.info("Exporting event %s" % event_id.id)
+            _logger.debug("Exporting event %s" % event_id.id)
             event = env['calendar.event'].browse(event_id.id)
-
+            if event.external_uuid:
+                _logger.debug("Event %s already exported" % event_id.id)
+                continue
+            event_uuid = str(uuid.uuid4())
             for partner in event.partner_ids:
                 user = env['res.users'].search(
                     [('partner_id', '=', partner.id)], limit=1)
@@ -127,22 +129,21 @@ class ResUsers(models.Model):
                         event.start).astimezone(user_tz)
                     event_end = pytz.utc.localize(
                         event.stop).astimezone(user_tz)
-                    # Get the URL and credentials of the user's calendar
-                    base_url = user.calendar_url
-                    calendar_user = user.calendar_user
-                    calendar_password = user.calendar_password
-
-                    # If the user has the necessary information for their calendar, publish the event
-                    if base_url and calendar_user and calendar_password:
+                    # If the user has the necessary information for their calendar, try to publish the event
+                    if  user.calendar_url and user.calendar_user and user.calendar_password:
                         calendar = Calendar()
                         ics_event = Event()
                         ics_event.name = event.name
                         ics_event.begin = event_start
                         ics_event.end = event_end
+                        ics_event.uid = event_uuid
                         calendar.events.add(ics_event)
-                        timestamp = str(time.time()).replace('.', '')
-                        event_url = base_url + timestamp + "_" + event.name + '.ics'
-                        self._publish_ical_event(
-                            event_url, calendar_user, calendar_password, calendar, log)
-
-        return len(events)
+                        event_url = user.calendar_url + ics_event.uid + ".ics"
+                        try:
+                            self._publish_ical_event(
+                                event_url, user.calendar_user, user.calendar_password, calendar)
+                            event.external_uuid = event_uuid
+                            event._origin.write({'external_uuid': event_uuid})
+                        except Exception as e:
+                            _logger.error("Error publishing event to %s" % event_url)
+                            event.add_unsynced_tag()
