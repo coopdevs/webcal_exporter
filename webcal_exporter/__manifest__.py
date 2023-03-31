@@ -9,10 +9,11 @@
     'depends': ['base', 'calendar'],
     'data': [
         'data/ir_cron_data.xml',
+        'data/ir_actions_server_data.xml',
         'views/res_users_view.xml',
     ],
     'external_dependencies': {
-        'python': ['ics', 'requests', 'pytz'],
+        'python': ['ics', 'requests', 'pytz', 'caldav'],
     },
     'installable': True,
     'application': False,
