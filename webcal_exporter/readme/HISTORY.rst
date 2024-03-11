@@ -1,3 +1,11 @@
+14.0.1.0.6 (2024-03-11)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Bugfixes**
+
+- Create event if UUID not found when updating events
+
+
 14.0.1.0.5 (2024-03-11)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -46,7 +46,13 @@ class CalendarEvent(models.Model):
 
                 if calendars:
                     calendar = next((cal for cal in calendars if cal.canonical_url.endswith(choosen_calendar)), calendars[0])
-                    external_event = calendar.event_by_uid(event.external_uuid)
+                    try:
+                        external_event = calendar.event_by_uid(event.external_uuid)
+                    except Exception as e:
+                        _logger.error("Error retrieving event from external calendar: %s", str(e))
+                        _logger.info("Event not found in external calendar, creating it")
+                        user.publish_event_to_calendar(event, user, event.external_uuid)
+                        external_event = False
                     if external_event:
                         ical = Calendar.from_ical(external_event.data)
                         ical_event = ical.walk('VEVENT')[0]

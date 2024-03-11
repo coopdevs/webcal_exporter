@@ -24,8 +24,8 @@ class ResUsers(models.Model):
     @api.onchange('calendar_url')
     def _onchange_calendar_url(self):
         self.write({'calendar_credentials_verified': False})
-    
-    @api.onchange('calendar_user')    
+
+    @api.onchange('calendar_user')
     def _onchange_calendar_user(self):
         self.write({'calendar_credentials_verified': False})
 
@@ -120,30 +120,44 @@ class ResUsers(models.Model):
                 continue
             event_uuid = str(uuid.uuid4())
             for partner in event.partner_ids:
-                user = env['res.users'].search(
-                    [('partner_id', '=', partner.id)], limit=1)
+                user = env['res.users'].search([('partner_id', '=', partner.id)], limit=1)
                 if user.calendar_credentials_verified:
-                    # Convert the event start and end times to the user's timezone
-                    user_tz = pytz.timezone(user.tz or 'UTC')
-                    event_start = pytz.utc.localize(
-                        event.start).astimezone(user_tz)
-                    event_end = pytz.utc.localize(
-                        event.stop).astimezone(user_tz)
-                    # If the user has the necessary information for their calendar, try to publish the event
-                    if  user.calendar_url and user.calendar_user and user.calendar_password:
-                        calendar = Calendar()
-                        ics_event = Event()
-                        ics_event.name = event.name
-                        ics_event.begin = event_start
-                        ics_event.end = event_end
-                        ics_event.uid = event_uuid
-                        calendar.events.add(ics_event)
-                        event_url = user.calendar_url + ics_event.uid + ".ics"
-                        try:
-                            self._publish_ical_event(
-                                event_url, user.calendar_user, user.calendar_password, calendar)
-                            event.external_uuid = event_uuid
-                            event._origin.write({'external_uuid': event_uuid})
-                        except Exception as e:
-                            _logger.error("Error publishing event to %s" % event_url)
-                            event.add_unsynced_tag()
+                    self.publish_event_to_calendar(event, user, event_uuid)
+
+    def publish_event_to_calendar(self, event, user, event_uuid=False):
+        """
+        Publishes an event to the user's calendar.
+
+        Args:
+            event (Event): The event to be published.
+            user (User): The user whose calendar will be used.
+            event_uuid (str, optional): The UUID of the event. If not provided, a new UUID will be generated.
+
+        Returns:
+            None
+        """
+        if not event_uuid:
+            event_uuid = str(uuid.uuid4())
+        user_tz = pytz.timezone(user.tz or 'UTC')
+        event_start = pytz.utc.localize(event.start).astimezone(user_tz)
+        event_end = pytz.utc.localize(event.stop).astimezone(user_tz)
+
+        if user.calendar_url and user.calendar_user and user.calendar_password:
+            calendar = Calendar()
+            ics_event = Event()
+            ics_event.name = event.name
+            ics_event.begin = event_start
+            ics_event.end = event_end
+            ics_event.uid = event_uuid
+            calendar.events.add(ics_event)
+            event_url = user.calendar_url + ics_event.uid + ".ics"
+
+            try:
+                self._publish_ical_event(event_url, user.calendar_user, user.calendar_password, calendar)
+                event.external_uuid = event_uuid
+                event._origin.write({'external_uuid': event_uuid})
+            except Exception as e:
+                _logger.error("Error publishing event to %s" % event_url)
+                event.add_unsynced_tag()
+
+
