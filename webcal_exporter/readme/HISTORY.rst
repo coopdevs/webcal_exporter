@@ -1,9 +1,11 @@
-14.0.1.0.4 (2024-03-11)
+14.0.1.0.5 (2024-03-11)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Bugfixes**
 
-- Respect calendar user choice when updating events ()
+- Export event for all attendees
+
+- Respect calendar user choice when updating events
 
 
 14.0.1.0.4 (2023-03-31)

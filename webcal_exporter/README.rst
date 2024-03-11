@@ -17,7 +17,7 @@ Webcal Exporter
     :target: https://github.com/coopdevs/webcal_exporter/tree/14.0/webcal_exporter
     :alt: coopdevs/webcal_exporter
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3|
 
 This module allows you to export Odoo calendar events to an external webcal (such as Nextcloud) for each user. Users can provide their webcal URL and credentials in their user profile, and the module will automatically export events created within the last hour. A scheduled action runs hourly to check for recent events and export them to the corresponding user's webcal.
 
@@ -34,13 +34,13 @@ Configuration
 =============
 
 1. Go to the user profile and fill in the following fields under the Calendar Export section:
-  
-- Calendar URL  
-  
-- Calendar User  
-  
-- Calendar Password  
-  
+
+- Calendar URL
+
+- Calendar User
+
+- Calendar Password
+
 2. Click on "Check Credentials" to verify if the provided credentials are correct.
 
 Usage
@@ -51,12 +51,14 @@ Once the user's calendar credentials are set up correctly, the module will autom
 Changelog
 =========
 
-14.0.1.0.4 (2024-03-11)
+14.0.1.0.5 (2024-03-11)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 **Bugfixes**
 
-- Respect calendar user choice when updating events ()
+- Export event for all attendees
+
+- Respect calendar user choice when updating events
 
 
 14.0.1.0.4 (2023-03-31)

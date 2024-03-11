@@ -27,8 +27,8 @@ class CalendarEvent(models.Model):
     def update_event_in_external_calendar(self):
         for event in self:
             # Obtén los asistentes al evento antes y después de la actualización
-            partner_before_update = event._origin.partner_id
-            partner_after_update = event.partner_id
+            partner_before_update = event._origin.partner_ids
+            partner_after_update = event.partner_ids
             all_partners = partner_before_update | partner_after_update
 
             for partner in all_partners:
