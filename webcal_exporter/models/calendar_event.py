@@ -41,9 +41,11 @@ class CalendarEvent(models.Model):
                 principal = client.principal()
                 calendars = principal.calendars()
 
-                if calendars:
-                    calendar = calendars[0]
+                # obtain the calendar that the user has chosen from the url
+                choosen_calendar = user.calendar_url.split("/")[-2]+"/"
 
+                if calendars:
+                    calendar = next((cal for cal in calendars if cal.canonical_url.endswith(choosen_calendar)), calendars[0])
                     external_event = calendar.event_by_uid(event.external_uuid)
                     if external_event:
                         ical = Calendar.from_ical(external_event.data)
